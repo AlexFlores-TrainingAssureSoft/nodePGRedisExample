@@ -203,9 +203,15 @@ app.get("/students/modulo-A-not-B", async (req, res, next) => {
 
 
 app.get("/springBoot", async (req, res, next) => {
-  const result = await axios.get("http://localhost:8080/api/v1/GetAll")
+  try {
 
-  res.json(result.data);
+    const result = await axios.get("http://172.20.0.4:8080/api/v1/GetAll")
+    res.json(result.data);
+
+  } catch (error) {
+    console.log(error);
+  }
+
 });
 
 
