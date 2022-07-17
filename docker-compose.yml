@@ -1,12 +1,22 @@
 version: '3.2'
 
 services:
+  javaspring:
+    image: app
+    networks:
+      - javaspring
+      - nodeapp
   nodeapp:
     container_name: 'nodeapp'
     build: .
     restart: always
     ports:
       - '3000:3000'
+    networks:
+      - nodeapp
+      - redis
+    environment:
+      - DATABASE_URL=http://javaspring:8080/api/v1/GetAll
   redis:
     image: 'bitnami/redis:latest'
 
@@ -15,7 +25,9 @@ services:
 
     environment:
         - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - redis
 networks:
-  default:
-    external:
-      name: external-example
+  javaspring:
+  nodeapp:
+  redis:
